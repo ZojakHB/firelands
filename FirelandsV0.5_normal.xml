@@ -1,0 +1,1288 @@
+<HBProfile>
+
+Profile Developer: Zojak 
+Farm zone: Firelands
+Thanks to: EchoTiger/Azyul, dellza
+
+
+<Name>Firelands Multi Profile V0.5 BETA Normal</Name>
+
+<MinFreeBagSlots>2</MinFreeBagSlots>
+<MinDurability>.2</MinDurability>
+
+
+
+
+<MailGrey>False</MailGrey>
+<MailWhite>false</MailWhite>
+<MailGreen>False</MailGreen>
+<MailBlue>False</MailBlue>
+<MailPurple>false</MailPurple>
+
+<SellGrey>True</SellGrey>
+<SellWhite>True</SellWhite>
+<SellGreen>True</SellGreen>
+<SellBlue>True</SellBlue>
+<SellPurple>True</SellPurple>
+
+<ProtectedItems>
+	<Item Name="Elementium Lockbox" Entry="68729" />
+	<Item Name="Potion of Treasure Finding" Entry="58488" />
+  <Item Name="Findle's Loot-A-Rang" Entry="109167" />
+</ProtectedItems>
+<Vendors>
+	<Vendor Name="Naresir Stormfury" Entry="54401" Type="Repair" X="-530.6389" Y="329.559" Z="115.4722"/> 
+</Vendors>
+
+<Mailboxes>
+</Mailboxes>
+
+<AvoidMobs>
+  <Mob Name="Shannox" Entry="53691" />
+  <Mob Name="Rageface" Entry="53695" />
+  <Mob Name="Riplimb" Entry="53694" />
+</AvoidMobs>
+
+
+<Blacklist>
+  <Mob Name="Shannox" Id="53691" Flags="Pull,Combat" />
+  <Mob Name="Rageface" Id="53695" Flags="Pull,Combat" />
+  <Mob Name="Riplimb" Id="53694" Flags="Pull,Combat" />
+</Blacklist> 
+<Blackspots>
+<Blackspot X="-119.7428" Y="120.1436" Z="44.34217" Radius="1" />
+<Blackspot X="-264.9505" Y="-123.0977" Z="46.14084" Radius="1.6" />
+<Blackspot X="-312.8366" Y="203.7294" Z="52.25954" Radius="15.22182" />
+
+</Blackspots>
+
+<QuestOrder>
+
+
+ <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Red, &quot;Please note that this profile will deposit gold and items on your guildbank \n if you dont want this stop the bot now!&quot;);" />
+  <CustomBehavior File="WaitTimer" WaitTime="8000" TerminateWhen="Me.IsMoving" />
+	<CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;This Profile contains guildbank deposit and medium pullroutine&quot;);" />
+	
+	<CustomBehavior File="RunCode" Type="Definition" Code="int waitCounter = 0;" />
+	<CustomBehavior File="RunCode" Type="Definition" Code="int deathCounter = 0;" />
+    <CustomBehavior File="RunCode" Type="Definition" Code="int hearthCounter = 0;" />
+	<CustomBehavior File="RunCode" Type="Definition" Code="int moongladeCounter = 0;" />
+	
+	
+	
+	
+	
+	
+<!-- Warning Sings -->
+
+
+
+<!-- End Warning Sings -->
+
+  <CustomBehavior File="RunCode" Type="Definition" >
+    <![CDATA[
+		public Styx.TreeSharp.Composite _deathSupportCompositeReset;
+    
+private async Task<bool> UniversalDeathSupportReset()
+		{
+			if (!StyxWoW.Me.IsGhost)
+				return false;
+
+			if (StyxWoW.Me.CorpseMapId == StyxWoW.Me.MapId)
+				return false;
+				
+			if (!(StyxWoW.Me.CorpseMapId == 800))
+				return false;
+
+			while (StyxWoW.Me.IsValid && StyxWoW.Me.IsGhost)
+			{
+				//Pit of Saron Support
+				if (StyxWoW.Me.CorpseMapId == 658) { 
+					//This is a total hack, I know.   Will improve later.
+					Logging.Write(System.Windows.Media.Colors.Yellow, "[Azyul Death Handler]: Using custom navigation for Pit of Saron.");
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 42000)
+					{
+						Flightor.MoveTo(new WoWPoint(5694.283, 2168.482, 803.9979));
+					}
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 18250 && StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) < 42000)
+					{
+						Flightor.MoveTo(new WoWPoint(5686.418, 2105.479, 802.7798));
+					}
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 7550 && StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) < 18250)
+					{
+						Flightor.MoveTo(new WoWPoint(5638.103, 2082.158, 803.5102));
+					}
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 1100 && StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) < 7550) 
+					{
+						Flightor.MoveTo(new WoWPoint(5616.018, 2030.401, 798.2736));
+					}
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 1 && StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) < 1100) 
+					{
+						Flightor.MoveTo(new WoWPoint(5592.38, 2010.549, 798.1951));
+					}
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) < 5) 
+					{
+						Navigator.PlayerMover.MoveTowards(new WoWPoint(5581.248, 2000.396, 798.0414));
+					}
+				await Coroutine.Yield();
+				}
+
+				// Universal navigation.
+				else {
+					if (StyxWoW.Me.Location.DistanceSqr(StyxWoW.Me.CorpsePoint) > 5f*5f)
+					{
+					  //Flightor handles calling Navigator internally when it can't fly.
+						Flightor.MoveTo(StyxWoW.Me.CorpsePoint);
+					}
+					else
+					{
+						var instancePoI = ObjectManager.GetObjectsOfType<WoWGameObject>().FirstOrDefault(o => o.SubType == WoWGameObjectType.DungeonDifficulty);
+						if (instancePoI.IsValid) 
+						{
+							Logging.Write(System.Windows.Media.Colors.Yellow, "[Azyul Death Handler]: Instance portal detected, moving towards instance object location.");
+							StyxWoW.Me.SetFacing(instancePoI.Location);
+							Lua.DoString("ResetInstances();");
+							Lua.DoString("ToggleAutoRun();");
+							await Coroutine.Wait(3000, () => StyxWoW.Me.IsInInstance);
+							ProfileManager.LoadNew(ProfileManager.XmlLocation);
+						}
+						else //Older dungeons can't be identified but typically place the CorsePoint on the instance load trigger.
+						{
+							Logging.Write(System.Windows.Media.Colors.Yellow, "[Azyul Death Handler]: Instance portal not detected, moving towards corpse point.");
+							StyxWoW.Me.SetFacing(StyxWoW.Me.CorpsePoint);
+							await Coroutine.Wait(5000, () => StyxWoW.Me.IsFacing(StyxWoW.Me.CorpsePoint)); // Could use a degree check for WoWPoint. :P
+							Navigator.PlayerMover.MoveTowards(StyxWoW.Me.CorpsePoint);
+							await Coroutine.Wait(3000, () => StyxWoW.Me.IsInInstance);
+						}
+					}
+					await Coroutine.Yield();
+				}
+			}
+
+			return true;
+		}
+
+
+
+]]>
+  </CustomBehavior>
+
+  <CustomBehavior File="RunCode">
+    <![CDATA[
+	TreeHooks.Instance.InsertHook("Questbot_Main", 0,
+		_deathSupportCompositeReset ?? (_deathSupportCompositeReset = new  CommonBehaviors.Actions.ActionRunCoroutine(ctx => UniversalDeathSupportReset())));
+		
+	Logging.Write(System.Windows.Media.Colors.Yellow, "[Azyul Death Handler]: v2.0 - Enabled");
+]]>
+  </CustomBehavior>
+  
+
+  <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;Enabled EchoTigers Dungeon/Raid Death Support with Reset on Death.&quot;);" />
+
+
+  <CustomBehavior File="RunCode" Type="Definition"><![CDATA[
+	bool HasArrivedKalimdor()
+	{
+		if (Me.ZoneId == 7078 || Me.ZoneId == 7004) return false; // Draenor Garrisons count as instanced locations.
+		if (StyxWoW.Me.MapId == 1 || Me.IsInInstance) return true;
+		return false;
+	}
+	bool InPriorityLocationKalimdor()
+	{
+		if (StyxWoW.Me.IsAlliance)
+		{
+			if (StyxWoW.Me.ZoneId == 6142 || StyxWoW.Me.ZoneId == 6553) return true; // Alliance Shrine
+		}
+		else
+		{
+			if (StyxWoW.Me.ZoneId == 6554 || StyxWoW.Me.ZoneId == 6141) return true; // Horde Shrine
+			if (StyxWoW.Me.ZoneId == 4395) return true; // Dalaran, portal to Orgrimmar only applies for Horde.
+		}
+		return false;
+	}
+	bool HearthIsPriorityLocationKalimdor()
+	{
+		if (StyxWoW.Me.IsAlliance)
+		{
+			if (StyxWoW.Me.HearthstoneAreaId == 6484) return true; // Alliance Shrine
+		}
+		else
+		{
+			if (StyxWoW.Me.HearthstoneAreaId == 6519) return true; // Horde Shrine
+			if (StyxWoW.Me.ZoneId == 4395) return true; // Dalaran, portal to Orgrimmar only applies for Horde.
+		}
+		if (Styx.WoWInternals.DBC.AreaTable.FromId(StyxWoW.Me.HearthstoneAreaId).MapId == 1) return true; // All Kalimdor inns.
+		return false;
+	}
+	bool HearthIsReadyKalimdor()
+	{
+		if (HasItem(64488) && !WoWSpell.FromId(94719).Cooldown) return true; // Innkeeper's Daughter
+		if (HasItem(6948) && !WoWSpell.FromId(8690).Cooldown) return true; // Hearthstone
+		if (SpellManager.CanCast(556)) return true; // Astral Recall
+		return false;
+	}
+	bool HasHearthKalimdor()
+	{
+		if (HasItem(64488)) return true; // Innkeeper Daughter
+		if (HasItem(6948)) return true; // Hearthstone
+		if (SpellManager.CanCast(556)) return true; // Astral Recall
+		return false;
+	}
+	bool CastingInterruptedKalimdor()
+	{
+		if (StyxWoW.Me.Combat || !Me.IsCasting) return true;
+		return false;
+	}
+	void KalimdorLog(System.Windows.Media.Color color, string message)
+	{
+		Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, "[Azyul Navigator]: ", color, $"{message}");
+	}
+	]]>
+</CustomBehavior>
+  
+  
+<!-- Selected Options -->
+
+ 
+
+    <CustomBehavior File="RunCode" Code="waitCounter=0;" />
+
+
+
+	
+<!-- Universal Nav Start -->
+
+		<If Condition="!HasArrivedKalimdor() &amp;&amp; HearthIsPriorityLocationKalimdor() &amp;&amp; !InPriorityLocationKalimdor() &amp;&amp; HasHearthKalimdor()" >
+			<CustomBehavior File="RunCode" Code="KalimdorLog(Colors.LightGreen, &quot;Hearthing would be faster to reach our destination, attempting to Hearth!&quot;);" />
+			<CustomBehavior File="ForcedDismount" />
+			<While Condition="!(HasArrivedKalimdor() || InPriorityLocationKalimdor())" >
+				<CustomBehavior File="RunCode" Code="await Coroutine.Wait(1800000, () => HearthIsReadyKalimdor() || InPriorityLocationKalimdor());" />
+				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(6948); UseItemByName(64488); CastSpellByID(556);" WaitTime="500" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="HasArrivedKalimdor() || InPriorityLocationKalimdor() || CastingInterruptedKalimdor()" />
+			</While>
+		</If>
+		
+<If Condition="(Me.MapId != 1 &amp;&amp; !Me.IsInInstance) || (Me.ZoneId == 7078 || Me.ZoneId == 7004)" >
+	<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;Going to Kalimdor!&quot;);" />
+
+	<If Condition="Me.IsAlliance" >
+		<!-- /// Mage Logic /// -->
+		<If Condition="SpellManager.CanCast(49359)" > <!-- Checks if we're a mage and spell is fully learnt+castable -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're a Mage! Teleporting to Kalimdor.&quot;);" />
+			<CustomBehavior File="ForcedDismount" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="Misc\RunLua" Lua="CastSpellByID(49359);" WaitTime="500" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat || !Me.IsCasting" />
+			</While>
+		</If>
+		<!-- /// Item Teleportation Logic.   Teleport to area that has portals (Shrine/etc) or teleport to destination /// -->
+		
+		<!-- /// Generic Logic /// -->
+		<If Condition="Me.ZoneId == 4080" > <!-- Isle of Quel'Danas -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Isle of Quel'Danas, using the Flight Master to Stormwind.&quot;);" />
+			<MoveTo DestName="Ohura, the flight master." X="13009.74" Y="-6910.024" Z="9.584676" />
+			<CustomBehavior File="InteractWith" MobId="26560" X="13012.39" Y="-6911.189" Z="9.586156" WaitTime="850" />
+			<CustomBehavior File="WaitTimer" WaitTime="600000" TerminateWhen="!Me.OnTaxi" />
+			<CustomBehavior File="Misc\RunLua" Lua="TaxiButton1:Click();" WaitTime="1000" />
+		</If>
+		<If Condition="(Me.ZoneId == 3557 || Me.ZoneId == 3524 || Me.ZoneId == 6456 || Me.ZoneId == 3525)" > <!-- Instanced Draenei Zone, shares MapId with Outlands so we're using ZoneId -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're a in Azure/Bloodmyst Isle, using the Exodar portal to Darnassus.&quot;);" />
+			<MoveTo DestName="The Vault of Lights, portal to Darnassus." X="-4040.254" Y="-11569.56" Z="-138.4055" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="207996" X="-4047.53" Y="-11569.33" Z="-138.4902" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 530" > <!-- Outlands -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Outlands, using the Shattrath portal to Stormwind.&quot;);" />
+			<MoveTo Nav="Fly" X="-1892.768" Y="5392.862" Z="-12.4277" />
+			<While Condition="Me.MapId != 0" >
+				<CustomBehavior File="InteractWith" MobId="183325" X="-1894.189" Y="5387.939" Z="-12.42825" TerminateWhen="Me.MapId == 0" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 0 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 646" > <!-- Deepholm -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Deepholm, using the portal for Stormwind.&quot;);" />
+			<MoveTo Nav="Fly" X="968.8371" Y="573.3804" Z="-44.5801" />
+			<While Condition="Me.MapId != 0" >
+				<CustomBehavior File="InteractWith" MobId="205272" X="965.25" Y="577.229" Z="-44.2583" TerminateWhen="Me.MapId == 0" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 0 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 1116 || Me.ZoneId == 7078" > <!-- Draenor, ZoneId applies for all Alliance Garrisons. -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Draenor, using the Ashran portal to Stormwind.&quot;);" />
+			<If Condition="Me.ZoneId != 7332 || Me.ZoneId != 7333 || Me.ZoneId != 6941" > <!-- Not in Ashran -->
+				<If Condition="Me.BagItems.FirstOrDefault(h => h.Entry == 110560).CooldownTimeLeft.TotalMilliseconds == 0 &amp;&amp; Me.ZoneId != 7078" > <!-- Can cast G-Hearth and Outside of Garrison. -->
+					<While Condition="Me.ZoneId != 7078" >
+						<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(110560);" WaitTime="500" />
+						<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.ZoneId == 7078 || Me.Combat || !Me.IsCasting" />
+					</While>
+					<Else>
+						<MoveTo DestName="Garrison" X="1866.757" Y="222.1068" Z="76.69209" />
+					</Else>
+				</If>
+				<If Condition="Me.MapId == 1159" > <!-- Tier 3 Garrison, use Ashran portal -->
+					<MoveTo DestName="Ashran Portal" X="1953.104" Y="88.81237" Z="85.35315" />
+					<CustomBehavior File="MyCTM" X="1963.944" Y="78.09597" Z="86.78989" />
+					<CustomBehavior File="MyCTM" X="1973.674" Y="76.40543" Z="89.06419" />
+					<CustomBehavior File="MyCTM" X="1971.38" Y="68.47722" Z="94.09551" />
+					<CustomBehavior File="MyCTM" X="1964.62" Y="70.38988" Z="98.61308" />
+					<CustomBehavior File="MyCTM" X="1965.144" Y="77.05215" Z="103.1184" />
+					<CustomBehavior File="MyCTM" X="1973.379" Y="75.69478" Z="108.3821" />
+					<CustomBehavior File="MyCTM" X="1968.117" Y="65.75282" Z="108.9199" />
+					<While Condition="Me.ZoneId != 7332" >
+						<CustomBehavior File="InteractWith" MobId="233610" X="1966.385" Y="66.29166" Z="108.92" TerminateWhen="Me.ZoneId == 7332" />
+						<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.ZoneId == 7332 || Me.Combat" />
+					</While>
+				</If>
+				<MoveTo DestName="Ashran" X="3732.467" Y="-4043.326" Z="44.81949" />
+			</If>
+			<While Condition="Me.MapId != 0" >
+				<CustomBehavior File="InteractWith" MobId="235883" X="3734.65" Y="-4042.976" Z="44.81873" TerminateWhen="Me.MapId == 0" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 0 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 571" > <!-- Northerend -->
+			<If Condition="Me.Y &gt;= 3000 &amp;&amp; Me.MapId == 571" > <!-- Western Northerend, Valiance Keep to Stormwind -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Western Northerend, using the Valiance Keep boat to Stormwind.&quot;);" />
+				<MoveTo Nav="Fly" X="2232.81" Y="5135.507" Z="5.343734" />
+				<CustomBehavior File="ForcedDismount" />
+				<DisableBehavior Name="FlightPath" />
+				<CustomBehavior File="UseTransport" TransportId="190536"
+					WaitAtX="2229.971" WaitAtY="5130.375" WaitAtZ="5.343726" 
+					TransportStartX="2218.391" TransportStartY="5119.588" TransportStartZ="0.02626281"
+					StandOnX="2224.698" StandOnY="5120.346" StandOnZ="9.452395"
+					TransportEndX="-8288.816" TransportEndY="1424.703" TransportEndZ="0.04"
+					GetOffX="-8293.984" GetOffY="1404.746" GetOffZ="4.412152"
+				/>
+				<EnableBehavior Name="FlightPath" />
+			</If>
+			<If Condition="Me.Y &lt; 3000 &amp;&amp; Me.Y &gt; -2200 &amp;&amp; Me.MapId == 571" > <!-- Middle Northerend, Dalaran to Stormwind -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Mid-Northerend, using the Dalaran portal to Stormwind.&quot;);" />
+				<MoveTo Nav="Fly" X="5719.701" Y="722.6963" Z="641.6025" />
+				<While Condition="Me.MapId != 0" >
+					<CustomBehavior File="InteractWith" MobId="190960" X="5719.184" Y="719.6667" Z="641.7278" TerminateWhen="Me.MapId == 0" />
+					<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 0 || Me.Combat" />
+				</While>
+			</If>
+			<If Condition="Me.Y &lt;= -2200 &amp;&amp; Me.MapId == 571" > <!-- Eastern Northerend, Valgarde Port to Stormwind -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Northerend, using the Valgarde Port boat to Menethil Harbor.&quot;);" />
+				<MoveTo X="589.7719" Y="-5100.328" Z="5.261706" />
+				<DisableBehavior Name="FlightPath" />
+				<CustomBehavior File="UseTransport" TransportId="181688"
+					WaitAtX="593.5266" WaitAtY="-5103.054" WaitAtZ="5.260394"
+					StandOnX="589.7733" StandOnY="-5118.479" StandOnZ="9.560918"
+					TransportStartX="584.0138" TransportStartY="-5118.855" TransportStartZ="0.04796536"
+					TransportEndX="-3674.43" TransportEndY="-586.774" TransportEndZ="-0.04061334" 
+					GetOffX="-3687.306" GetOffY="-602.1353" GetOffZ="4.406231"
+				/>	
+				<EnableBehavior Name="FlightPath" />
+			</If>
+		</If>
+		<If Condition="Me.MapId == 870" > <!-- Pandaria -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Pandaria, using the Shrine portal to Darnassus.&quot;);" />
+			<If Condition="Me.ZoneId != 6553" > <!-- If not inside of Shrine building -->
+				<MoveTo Nav="Fly" X="861.8756" Y="283.1115" Z="503.678" />
+			</If>
+			<MoveTo X="809.8257" Y="161.3773" Z="519.6681" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="215116" X="812.344" Y="159.2518" Z="519.9393" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 0" > <!-- Eastern Kingdoms -->
+			<If Condition="Me.X &lt;= -11375" > <!-- Booty Bay to Ratchet -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Kingdoms, going to Booty Bay to take the boat to Ratchet.&quot;);" />
+				<MoveTo Nav="Fly" X="-14284.1" Y="558.6824" Z="8.684329" />
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="UseTransport" TransportId="20808"
+					WaitAtX="-14281.7" WaitAtY="564.5626" WaitAtZ="7.523634"
+					TransportStartX="-14277.75" TransportStartY="582.8661" TransportStartZ="0.02733914"
+					StandOnX="-14274.47" StandOnY="579.4496" StandOnZ="6.051711"
+					TransportEndX="-1005.613" TransportEndY="-3841.647" TransportEndZ="0.04629734"
+					GetOffX="-994.4224" GetOffY="-3829.305" GetOffZ="5.609204" />
+			</If>
+			<If Condition="Me.X &gt; -11375 &amp;&amp; Me.MapId == 0" > <!-- Stormwind Docks to Darnassus -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Kingdoms, going to the Stormwind Docks to take the boat to Rut'theran Village.&quot;);" />
+				<MoveTo Nav="Fly" X="-8643.703" Y="1326.355" Z="5.536546" />
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="UseTransport" TransportId="176310"
+					WaitAtX="-8643.136" WaitAtY="1333.618" WaitAtZ="5.662908"
+					TransportStartX="-8650.719" TransportStartY="1346.051" TransportStartZ="-0.0005500095"
+					StandOnX="-8644.584" StandOnY="1340.663" StandOnZ="6.050124"
+					TransportEndX="8162.587" TransportEndY="1005.365" TransportEndZ="-0.04970189"
+					GetOffX="8180.023" GetOffY="1003.093" GetOffZ="6.89308" />
+			</If>
+		</If>
+	</If>
+
+	<If Condition="Me.IsHorde" >
+		<!-- /// Mage Logic /// -->
+		<If Condition="SpellManager.CanCast(3567)" > <!-- Checks if we're a mage and spell is fully learnt+castable -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're a Mage! Teleporting to Orgrimmar.&quot;);" />
+			<CustomBehavior File="ForcedDismount" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="Misc\RunLua" Lua="CastSpellByID(3567);" WaitTime="500" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat || !Me.IsCasting" />
+			</While>
+		</If>
+		<!-- /// Item Teleportation Logic.   Teleport to area that has portals (Shrine/etc) or teleport to destination /// -->
+
+		<!-- /// Generic Logic /// -->
+		<If Condition="Me.ZoneId == 6455 || Me.ZoneId == 3430 || Me.ZoneId == 3487 || Me.ZoneId == 3433" > <!-- Sunstrider Isle, Eversong Woods, Silvermoon City, Ghostlands -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in northen Eastern Kingdoms.  Using the Orb of Translocation to enter Undercity.&quot;);" />
+			<MoveTo DestName="Inner Sanctum" X="10039.12" Y="-7000.733" Z="61.95295" />
+			<While Condition="Me.ZoneId != 85" >
+				<CustomBehavior File="InteractWith" MobId="184502" X="10032.36" Y="-7000.288" Z="61.30979" WaitTime="2500" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.ZoneId == 85" />
+			</While>
+		</If>
+		<If Condition="Me.ZoneId == 4080" > <!-- Isle of Quel'Danas -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Isle of Quel'Danas, using the Flight Master to Undercity.&quot;);" />
+			<MoveTo DestName="Ohura, the flight master." X="13009.74" Y="-6910.024" Z="9.584676" />
+			<CustomBehavior File="InteractWith" MobId="26560" X="13012.39" Y="-6911.189" Z="9.586156" WaitTime="850" />
+			<CustomBehavior File="WaitTimer" WaitTime="600000" TerminateWhen="!Me.OnTaxi" />
+			<CustomBehavior File="Misc\RunLua" Lua="TaxiButton2:Click();" WaitTime="1000" />
+		</If>
+		<If Condition="Me.MapId == 571" > <!-- Northerend -->
+			<If Condition="Me.Y &gt;= 3000 &amp;&amp; Me.MapId == 571" > <!-- Western Northerend, Warsong Hold to Orgrimmar -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Western Northerend, using the Warsong Hold zeppelin to Orgrimmar.&quot;);" />
+				<CustomBehavior File="FlyTo" X="2946.323" Y="6069.065" Z="147.4432" />
+				<DisableBehavior Name="FlightPath" />
+				<CustomBehavior File="MyCTM" X="2829.086" Y="6176.118" Z="128.0574" />
+				<CustomBehavior File="WaitTimer" WaitTime="850" /> <!-- Consider lag and CTM tolerance. -->
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="UseTransport" TransportId="186238"
+					WaitAtX="2837.035" WaitAtY="6185.063" WaitAtZ="121.9975"
+					TransportStartX="2837.908" TransportStartY="6187.443" TransportStartZ="140.1648"
+					StandOnX="2844.346" StandOnY="6191.38" StandOnZ="122.3167"					  
+					TransportEndX="1775.066" TransportEndY="-4299.745" TransportEndZ="151.0326"
+					GetOffX="1761.337" GetOffY="-4281.487" GetOffZ="133.1072"
+				/>
+				<EnableBehavior Name="FlightPath" />
+			</If>
+			<If Condition="Me.Y &lt; 3000 &amp;&amp; Me.Y &gt; -2200 &amp;&amp; Me.MapId == 571" > <!-- Middle Northerend, Dalaran to Orgrimmar -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Northerend, using the Dalaran portal to Orgrimmar.&quot;);" />
+				<MoveTo Nav="Fly" X="5923.893" Y="589.9543" Z="639.8708" />
+				<While Condition="Me.MapId != 1" >
+					<CustomBehavior File="InteractWith" MobId="191009" X="5925.874" Y="593.1875" Z="640.5933" TerminateWhen="Me.MapId == 1" />
+					<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+				</While>
+			</If>
+			<If Condition="Me.Y &lt;= -2200 &amp;&amp; Me.MapId == 571" > <!-- Eastern Northerend, Vengeance Landing to Thunder Bluff -->
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Northerend, using the Vengeance Landing zeppelin to Undercity.&quot;);" />
+				<MoveTo Nav="Fly" X="1974.872" Y="-6098.991" Z="67.15174" />
+				<DisableBehavior Name="FlightPath" />
+				<CustomBehavior File="UseTransport" TransportId="181689"
+					WaitAtX="1976.73" WaitAtY="-6095.377" WaitAtZ="67.15933"
+					TransportStartX="1989.353" TransportStartY="-6082.776" TransportStartZ="85.59646"
+					StandOnX="1982.445" StandOnY="-6091.406" StandOnZ="67.6969"
+					TransportEndX="2056.493" TransportEndY="381.6347" TransportEndZ="100.362"
+					GetOffX="2061.253" GetOffY="360.2228" GetOffZ="82.48778"
+				/>
+				<EnableBehavior Name="FlightPath" />
+			</If>
+		</If>
+		<If Condition="Me.MapId == 530" > <!-- Outlands -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Outlands, using the Shattrath portal to Orgrimmar.&quot;);" />
+			<MoveTo Nav="Fly" X="-1898.129" Y="5395.677" Z="-12.42727" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="183323" X="-1899.45" Y="5393.01" Z="-12.42832" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 1116 || Me.ZoneId == 7004" > <!-- Draenor -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Draenor, using the Ashran portal to Orgrimmar.&quot;);" />
+			<If Condition="Me.ZoneId != 7332 || Me.ZoneId != 7333 || Me.ZoneId != 6941" > <!-- Not in Ashran -->
+				<If Condition="Me.BagItems.FirstOrDefault(h => h.Entry == 110560).CooldownTimeLeft.TotalMilliseconds == 0 &amp;&amp; Me.ZoneId != 7004" > <!-- Can cast G-Hearth and Outside of Garrison. -->
+					<While Condition="Me.ZoneId != 7004" >
+						<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(110560);" WaitTime="500" />
+						<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.ZoneId == 7004 || Me.Combat || !Me.IsCasting" />
+					</While>
+					<Else>
+						<MoveTo DestName="Garrison" X="5592.404" Y="4529.675" Z="126.3718" />
+					</Else>
+				</If>
+				<If Condition="Me.MapId == 1153" >
+					<MoveTo DestName="Ashran Portal" X="5583.557" Y="4373.989" Z="137.6236" />
+					<CustomBehavior File="MyCTM" X="5579.374" Y="4366.707" Z="138.9411" />
+					<CustomBehavior File="MyCTM" X="5575.75" Y="4367.552" Z="138.9789" />
+					<CustomBehavior File="MyCTM" X="5572.477" Y="4361.848" Z="143.433" />
+					<CustomBehavior File="MyCTM" X="5578.62" Y="4358.129" Z="147.87" />
+					<CustomBehavior File="MyCTM" X="5582.464" Y="4364.247" Z="152.3972" />
+					<CustomBehavior File="MyCTM" X="5576.058" Y="4368.637" Z="156.7244" />
+					<CustomBehavior File="MyCTM" X="5572.972" Y="4361.899" Z="159.8998" />
+					<CustomBehavior File="MyCTM" X="5584.697" Y="4356.71" Z="160.9148" />
+				</If>
+				<While Condition="Me.ZoneId != 7333" >
+					<CustomBehavior File="InteractWith" MobId="233600" X="5586.819" Y="4357.713" Z="161.427" TerminateWhen="Me.ZoneId == 7333" />
+					<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.ZoneId == 7333 || Me.Combat" />
+				</While>
+			</If>
+			<MoveTo X="5266.4" Y="-4075.891" Z="21.13024" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="235880" X="5266.4" Y="-4075.891" Z="21.13024" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 646" > <!-- Deepholm -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Deepholm, using the portal for Orgrimmar.&quot;);" />
+			<MoveTo Nav="Fly" X="991.8574" Y="458.2401" Z="-44.27066" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="205273" X="990.495" Y="454.457" Z="-44.2477" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+
+		<!--<If Condition="Me.MapId == 530" >  Instanced Draenei Zone 
+			Do we really need Horde support for this?
+		</If> -->
+		<If Condition="Me.MapId == 0" > <!-- Eastern Kingdoms -->
+			<If Condition="Me.X &gt;= -5275 &amp;&amp; Me.MapId == 0" >
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Kingdoms, using the Undercity Zeppelin to Kalimdor.&quot;);" />
+				<MoveTo Nav="Fly" X="2067.433" Y="286.6822" Z="97.03147" />
+				<CustomBehavior File="ForcedDismount" />
+				<MoveTo WaitAtX="2061.913" WaitAtY="365.0161" WaitAtZ="82.51536" />
+				<CustomBehavior File="UseTransport" TransportId="164871"
+					WaitAtX="2067.045" WaitAtY="290.4988" WaitAtZ="97.03147"
+					TransportStartX="2062.376" TransportStartY="292.998" TransportStartZ="114.973" 
+					StandOnX="2067.172" StandOnY="295.6679" StandOnZ="97.18893"
+					TransportEndX="1833.509" TransportEndY="-4391.543" TransportEndZ="152.7679"
+					GetOffX="1840.091" GetOffY="-4392.189" GetOffZ="135.233" />
+			</If>
+			<If Condition="Me.X &lt; -5275 &amp;&amp; Me.MapId == 0" >
+				<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Eastern Kingdoms, going to Booty Bay to take the boat to Ratchet.&quot;);" />
+				<MoveTo Nav="Fly" X="-14284.1" Y="558.6824" Z="8.684329" />
+				<CustomBehavior File="ForcedDismount" />
+				<CustomBehavior File="UseTransport" TransportId="20808"
+					WaitAtX="-14281.7" WaitAtY="564.5626" WaitAtZ="7.523634"
+					TransportStartX="-14277.75" TransportStartY="582.8661" TransportStartZ="0.02733914"
+					StandOnX="-14274.47" StandOnY="579.4496" StandOnZ="6.051711"
+					TransportEndX="-1005.613" TransportEndY="-3841.647" TransportEndZ="0.04629734"
+					GetOffX="-994.4224" GetOffY="-3829.305" GetOffZ="5.609204" />
+			</If>
+		</If>
+		<If Condition="Me.MapId == 870" > <!-- Pandaria -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Pandaria, using the Shrine portal to Orgrimmar.&quot;);" />
+			<If Condition="Me.ZoneId != 6141" > <!-- If not inside of Shrine building -->
+				<MoveTo Nav="Fly" X="1629.72" Y="924.5151" Z="471.1836" />
+			</If>
+			<MoveTo X="1734.699" Y="876.1328" Z="487.1131" />
+			<While Condition="Me.MapId != 1" >
+				<CustomBehavior File="InteractWith" MobId="215127" X="1735.073" Y="873.5676" Z="487.4114" TerminateWhen="Me.MapId == 1" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="Me.MapId == 1 || Me.Combat" />
+			</While>
+		</If>
+		<If Condition="Me.MapId == 1" > <!-- Kalimdor -->
+			<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We're in Kalimdor, using the Orgrimmar portal to Hyjal.&quot;);" />
+			<MoveTo Nav="Fly" X="2031.018" Y="-4333.061" Z="95.47102"  />
+			<CustomBehavior File="InteractWith" MobId="207688" X="2042.752" Y="-4395.662" Z="97.93639" />
+		</If>
+
+	<CustomBehavior File="RunCode" Code="Bots.Professionbuddy.PBLog.Log(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul Navigator]: &quot;, System.Windows.Media.Colors.LightGreen, &quot;We have reached Hyjal!&quot;);" />
+	</If>
+</If>
+<!-- Universal Nav End -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Run the Instance -->
+
+
+<While Condition="Me.IsAlive">
+	<!--Enter Dungeon-->
+	<If Condition="Me.ZoneId != 5723">
+		<If Condition="Me.Location.Distance(new WoWPoint(3987.989, -2944.655, 1002.547)) &gt; 100 " >
+			<CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.DeepSkyBlue, &quot;[Azyul]: Heading to Instance.&quot;);" />
+		</If>
+		<MoveTo Nav="Fly" X="3987.989" Y="-2944.655" Z="1002.547"  />
+		<CustomBehavior File="GoThruPortal" Timeout="30000" X="3983.473" Y="-2931.715" Z="1002.547" />
+		<CustomBehavior File="WaitTimer" WaitTime="10000" TerminateWhen="Me.IsInInstance" />
+		</If>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	<!-- what happens in firelands stays in firelands-->
+		<While Condition="Me.ZoneId == 5723" >
+      <DisableBehavior Name="Death" /> 
+		<If Condition="waitCounter &gt;= 1">
+		<CustomBehavior File="Misc\InstanceTimer" Timer="Check" WaitTime="400000" />
+    </If>
+    <CustomBehavior File="RunCode" Code="waitCounter=0;" />
+	 <CustomBehavior File="RunCode" Code="deathCounter=0;" />
+		<CustomBehavior File="Misc\InstanceTimer" Timer="Start" />
+		
+		
+		
+		<!-- Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  Hooks  -->
+		<!-- Death Behavior-->
+      
+	   <CustomBehavior File="Hooks\DoWhen" ActivityName="CustomDeathHook" TreeHookName="Death_Main" AllowUseDuringCombat="True" AllowExecutionWhileNotAlive="True"  UseWhen="(Me.IsDead &amp;&amp; Me.IsInInstance) &amp;&amp; (deathCounter &lt;= 2)" >
+	   <CustomBehavior File="Misc\RunLua" Lua="RepopMe();" />
+	   <CustomBehavior File="WaitTimer" WaitTime="1000" />
+	   <CustomBehavior File="RunCode" Code="deathCounter++;" />
+	   
+	   </CustomBehavior>
+	   
+	   
+       <CustomBehavior File="Hooks\DoWhen" ActivityName="CustomDeathResetHook"  AllowUseDuringCombat="True" AllowExecutionWhileNotAlive="True"  UseWhen="(Me.IsDead &amp;&amp; Me.IsInInstance) &amp;&amp; (deathCounter &gt;= 3)" >
+          <DisableBehavior Name="Combat" />
+          <DisableBehavior Name="Death" />
+          <CustomBehavior File="Misc\RunLua" Lua="RepopMe();" />
+		    <CustomBehavior File="WaitTimer" WaitTime="1000" />
+			<CustomBehavior File="Misc\RunLua" Lua="RepopMe();" />
+          <CustomBehavior File="GoThruPortal" Timeout="30000" X="-558.6042" Y="322.9795" Z="115.4839" />
+          <CustomBehavior File="Misc\RunLua" Lua="ResetInstances();"  />
+		  <CustomBehavior File="RunCode" Code="deathCounter=0;" />
+          <CustomBehavior File="RunCode" Code="ProfileManager.LoadNew(ProfileManager.XmlLocation);" />
+          <EnableBehavior Name="Combat" />
+          <EnableBehavior Name="Death" />
+        </CustomBehavior>
+		
+		<CustomBehavior File="Hooks\DoWhen" ActivityName="CustomHearthHook" TreeHookName="Hearth_Main" AllowUseDuringCombat="True" AllowExecutionWhileNotAlive="True"  UseWhen="(!HasArrivedKalimdor() &amp;&amp; HearthIsPriorityLocationKalimdor() &amp;&amp; !InPriorityLocationKalimdor() &amp;&amp; HasHearthKalimdor()) &amp;&amp; (hearthCounter &gt;= 3)" >
+			<CustomBehavior File="RunCode" Code="KalimdorLog(Colors.LightGreen, &quot;Hearthing would be faster to reach our destination, attempting to Hearth!&quot;);" />
+			<CustomBehavior File="ForcedDismount" />
+			<While Condition="!(HasArrivedKalimdor() || InPriorityLocationKalimdor())" >
+				<CustomBehavior File="RunCode" Code="await Coroutine.Wait(1800000, () => HearthIsReadyKalimdor() || InPriorityLocationKalimdor());" />
+				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(6948); UseItemByName(64488); CastSpellByID(556);" WaitTime="500" />
+				<CustomBehavior File="WaitTimer" WaitTime="50000" TerminateWhen="HasArrivedKalimdor() || InPriorityLocationKalimdor() || CastingInterruptedKalimdor()" />
+			</While>
+			<CustomBehavior File="RunCode" Code="hearthCounter=0;" />
+			<CustomBehavior File="RunCode" Code="ProfileManager.LoadNew(ProfileManager.XmlLocation);" />
+		</CustomBehavior>
+      
+	   <CustomBehavior File="Hooks\DoWhen" ActivityName="CustomMoongladeResetHook"  AllowUseDuringCombat="True" AllowExecutionWhileNotAlive="True"  UseWhen="(moongladeCounter &gt;= 3)" >
+ 	  <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;Reached 3 Teleport trys! Lets fly to the instance .&quot;);" />
+	  	  		<If Condition="(HasItem(64488) &amp;&amp; !WoWSpell.FromId(94719).Cooldown) || (HasItem(6948) &amp;&amp; !WoWSpell.FromId(8690).Cooldown)" >
+				<CustomBehavior File="Misc\RunLua" Lua="UseItemByName(6948); UseItemByName(64488); CastSpellByID(556);" WaitTime="500" />
+				 <CustomBehavior File="WaitTimer" WaitTime="10000" />
+				   <CustomBehavior File="RunCode" Code="ProfileManager.LoadNew(ProfileManager.XmlLocation);" />
+			</If>
+			<If Condition="Me.ZoneId == 493">
+			<MoveTo X="7468.326" Y="-2122.262" Z="492.343" />
+			<CustomBehavior File="TaxiRide" MobId="12740" DestName="Nordrassil" />
+			</If>
+	  <CustomBehavior File="RunCode" Code="ProfileManager.LoadNew(ProfileManager.XmlLocation);" />
+	  </CustomBehavior>
+	  
+
+		<!-- Use Chests -->
+		<CustomBehavior File="Hooks\DoWhen" ActivityName="Open_PChests" UseWhen="HasItem(67539)" AllowUseDuringCombat="true" >
+			<CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;Opening Tiny Treasure Chest!.&quot;);" />
+			<CustomBehavior File="UseItem" ItemId="67539" NumOfTimes="500" TerminateWhen="!HasItem(67539)" />
+      <CustomBehavior File="WaitTimer" WaitTime="100" />
+		</CustomBehavior>
+		
+
+
+			 
+
+	
+		
+		<!-- end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks  end Hooks -->
+	
+	
+	
+	
+	
+	
+	
+		<!--Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank Gbank -->
+		<!--put gold in bank-->
+		
+		<If Condition="SpellManager.CanCast(83958) &amp;&amp; ((Me.Gold &gt; 1000) || (HasItem(68729) || HasItem(53010) || HasItem(52183) || HasItem(52185) || HasItem(52328) || HasItem(52327) || HasItem(52325) || HasItem(52326) || HasItem(52329) || HasItem(52555) || HasItem(52718)  || (Me.Class == WoWClass.Rogue &amp;&amp; !HasItem(58488))))" >
+			<CustomBehavior File="RunCode" Code="SpellManager.Cast(83958);" />
+			<CustomBehavior File="WaitTimer" WaitTime="3500" />
+			<CustomBehavior File="InteractWith" MobId1="206602" MobId2="206603" WaitForNpcs="false" WaitTime="2000" /> 
+			
+				<CustomBehavior File="Misc\RunLua" Lua="DepositGuildBankMoney(GetMoney());" />  
+			
+			
+			
+			
+			<!-- elementium lockbox -->
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(68729)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 68729) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			
+			<!-- Embersilk Cloth -->
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(53010)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 53010) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- Pyrit Ore -->
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52183)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52183) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- ele  Ore -->
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52185)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52185) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+
+			<!-- volatile air -->
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52328)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52328) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- volatile air -->
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52327)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52327) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- volatile fire -->
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52325)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52325) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!--  volatile water -->
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52326)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52326) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- volatile life -->
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52329)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52329) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			<!-- Dust  -->
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52555)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52555) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			
+			
+			<!-- essence -->
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+			<If Condition="HasItem(52718)">
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="100" />  
+				<CustomBehavior File="RunCode" WaitTime="1000" NumOfTimes="1" Code="foreach (WoWItem i in Me.BagItems) { if(i.Entry == 52718) i.UseContainerItem(); StyxWoW.SleepForLagDuration(); }" />
+			</If>
+
+
+
+			
+			
+			<If Condition="Me.Class == WoWClass.Rogue &amp;&amp; Me.FreeBagSlots &gt;= 40" >
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="500" />  
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=1 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	 
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="500" />  
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=2 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	   
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="500" />   
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=3 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="500" />        
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=4 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	     
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="500" />   
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=5 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="500" />      
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=6 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;68729&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	
+			</If>
+			
+			
+			<If Condition="Me.FreeBagSlots &gt;= 1 &amp;&amp; !HasItem(58488)" >
+				<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab1Button:Click()" WaitTime="500" />  
+				<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=1 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	 
+				<If Condition="!HasItem(58488)">
+					<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab2Button:Click()" WaitTime="500" />  
+					<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=2 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	   
+				</If>
+				<If Condition="!HasItem(58488)">
+					<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab3Button:Click()" WaitTime="500" />   
+					<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=3 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	
+				</If>
+				<If Condition="!HasItem(58488)">
+					<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab4Button:Click()" WaitTime="500" />        
+					<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=4 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />
+				</If>
+				<If Condition="!HasItem(58488)">					
+					<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab5Button:Click()" WaitTime="500" />   
+					<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=5 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />	
+				</If>
+				<If Condition="!HasItem(58488)">
+					<CustomBehavior File="Misc\RunLua" Lua="GuildBankTab6Button:Click()" WaitTime="500" />      
+					<CustomBehavior File="Misc\RunLua"  WaitTime="1000" NumOfTimes="3" Lua="local b=6 for s=1,98 do local n=GetGuildBankItemLink(b,s)if n and strfind(n,&quot;58488&quot;)then print(&quot;Withdrawing &quot;..n)AutoStoreGuildBankItem(b,s)end end" />
+				</If>
+			</If>
+		</If> 
+	
+		<!-- end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank end Gbank -->
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run prep brefore run -->
+		<!-- Vendor at start-->
+		<If Condition="Me.FreeBagSlots &lt;= 32" >
+			<CustomBehavior File="WaitTimer" WaitTime="1000" />
+			<CustomBehavior File="ForceSetVendor" DoRepair="True" DoSell="True" />
+			<CustomBehavior File="WaitTimer" WaitTime="2000" />
+			<CustomBehavior File="DeleteItems" Ids="52371,52378,52385,52365,52374,52376,52383,52368,52388,52386,52375,52382,52364,52370,52367,52377,52372,52363,52366,52379,69820,52369,52373" />
+		</If>
+
+
+		<!-- end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run end prep brefore run -->
+		
+		
+		
+		
+		
+		
+		
+		
+		<!-- Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls  Normal Pulls -->
+     
+            <!-- First pull -->
+
+        <DisableBehavior Name="Combat" />
+        <RunTo X="-383.7891" Y="71.76392" Z="45.83294" />
+        <RunTo X="-389.9401" Y="74.78466" Z="45.83452" />
+        <RunTo X="-404.3139" Y="29.42205" Z="45.78165" />
+        <RunTo X="-354.6057" Y="29.67383" Z="48.60788" />
+        <RunTo X="-301.8751" Y="121.1135" Z="45.02083" />
+        <RunTo X="-336.799" Y="161.749" Z="47.80421" />
+        <RunTo X="-282.1494" Y="159.3059" Z="48.0039" />
+        <If Condition="!Me.HasAura(80263) &amp;&amp; HasItem(58488)" >
+			      <CustomBehavior File="UseItem" ItemId="58488" WaitTime="1000" />
+	      </If>
+         <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53141" ObjectType="Npc" Range="2" />
+         
+        <EnableBehavior Name="Combat" />
+
+        <CustomBehavior File="ForcedMount" MountType="Ground" />
+       
+
+
+        <!-- Second Pull  -->
+
+        <DisableBehavior Name="Combat" />
+        <RunTo X="-213.2895" Y="191.0133" Z="46.0087" />
+        <RunTo X="-191.0585" Y="191.525" Z="45.1801" />
+        <RunTo X="-151.375" Y="208.7026" Z="44.85277" />
+        <RunTo X="-110.9725" Y="206.6497" Z="44.91728" />
+        <EnableBehavior Name="Combat" />
+
+        <!-- Kill the Corehound to prevent to be kicked into the lava-->
+        <If Condition="Object(53134, o => o.ToUnit().IsAlive) != null ">
+          <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53134" ObjectType="Npc" Range="1" />
+          <CustomBehavior File="WaitTimer" WaitTime="1000" />
+        </If>
+
+        <CustomBehavior File="ForcedMount" MountType="Ground" />
+
+        <DisableBehavior Name="Combat" />
+        <RunTo X="-65.21304" Y="143.0347" Z="44.26675" />
+        <RunTo X="-127.8154" Y="158.1351" Z="45.76446" />
+        <RunTo X="-144.6579" Y="94.71752" Z="45.93489" />
+        <RunTo X="-177.0572" Y="128.8419" Z="45.93319" />
+        <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53167" ObjectType="Npc" Range="1" />
+        <EnableBehavior Name="Combat" />
+
+
+        <CustomBehavior File="ForcedMount" MountType="Ground" />
+   
+        <!-- Third Pull -->
+        <DisableBehavior Name="Combat" />
+        <RunTo X="-199.8436" Y="62.61348" Z="45.34483" />
+        <RunTo X="-157.9633" Y="27.43606" Z="47.25634" />
+        <RunTo X="-235.8468" Y="19.56069" Z="47.49309" />
+        <RunTo X="-288.6647" Y="44.2026" Z="45.08817" />
+        <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53167" ObjectType="Npc" Range="1" />
+        <EnableBehavior Name="Combat" />
+
+
+
+
+        <CustomBehavior File="ForcedMount" MountType="Ground" />
+
+        <!-- 4th Pull -->
+        <DisableBehavior Name="Combat" />
+        <RunTo X="-259.397" Y="-39.57774" Z="45.0899" />
+        <RunTo X="-162.0293" Y="-94.79612" Z="45.38711" />
+        <RunTo X="-247.2804" Y="-109.9809" Z="44.74656" />
+        <RunTo X="-328.256" Y="-159.5718" Z="46.46931" />
+        <RunTo X="-299.9663" Y="-117.4658" Z="44.7714" />
+        <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53167" ObjectType="Npc" Range="1" />
+        <EnableBehavior Name="Combat" />
+
+        <CustomBehavior File="ForcedMount" MountType="Ground" />
+
+        <!-- 5th Pull -->
+     
+
+   
+        
+     
+          <DisableBehavior Name="Combat" />
+          <RunTo X="-250.5062" Y="-231.5517" Z="53.00938" />
+          <RunTo X="-221.2656" Y="-280.8629" Z="53.30133" />
+          <RunTo X="-170.4689" Y="-257.2387" Z="55.59405" />
+          <RunTo X="-142.5069" Y="-201.5208" Z="53.30188" />
+          <RunTo X="-195.676" Y="-188.1827" Z="53.3019" />
+          <CustomBehavior File="InteractWith" WaitForNpcs="false" MobState="Alive" MobId="53121" ObjectType="Npc" Range="1" />
+          <EnableBehavior Name="Combat" />
+     
+
+       <If Condition="Me.Class == WoWClass.Druid">
+        <CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.DeepSkyBlue, &quot;Use Teleport: Moonglade&quot;);" />
+        <CustomBehavior File="RunCode" Code="SpellManager.Cast(18960); await Coroutine.Sleep(20000);" />
+        <CustomBehavior File="WaitTimer" WaitTime="1000" />
+        <CustomBehavior File="Misc\RunLua" Lua="ResetInstances();"  />
+		<While Condition="Me.ZoneId == 493">
+			<CustomBehavior File="RunCode" Code="SpellManager.Cast(18960); await Coroutine.Sleep(20000);" />
+				<If Condition="Me.ZoneId == 493">
+					<CustomBehavior File="RunCode" Code="moongladeCounter++;" />
+					<CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;Teleport unsuccessful add +1 to counter&quot;);" />
+				</If>
+		</While>
+        <CustomBehavior File="RunCode" Code="waitCounter++;" />
+      </If>
+      
+      <If Condition="Me.Class == WoWClass.DeathKnight" >
+          <CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+		  <If Condition="SpellManager.CanCast(50977)"><!-- security -->
+				<CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+		  </If>
+		  <If Condition="SpellManager.CanCast(50977)"><!-- security -->
+				<CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+		  </If>
+          <CustomBehavior File="InteractWith" MobId="190942"  WaitForNpcs="true" WaitTime="2000"  />
+          <CustomBehavior File="WaitTimer" WaitTime="53500" />
+          <CustomBehavior File="Misc\RunLua" Lua="ResetInstances();"  />
+          <While Condition="Me.ZoneId == 139">
+           <CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+		   	<If Condition="SpellManager.CanCast(50977)"><!-- security -->
+				<CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+			</If>
+		  	<If Condition="SpellManager.CanCast(50977)"><!-- security -->
+				<CustomBehavior File="RunCode" Code="SpellManager.Cast(50977); await Coroutine.Sleep(11000);" />
+			</If>
+           <CustomBehavior File="InteractWith" MobId="190942"  WaitForNpcs="true" WaitTime="2000"  />
+           <CustomBehavior File="WaitTimer" TerminateWhen="Me.IsInInstance" WaitTime="60000" />
+				<If Condition="Me.ZoneId == 139">
+					<CustomBehavior File="RunCode" Code="hearthCounter++;" />
+					<CustomBehavior File="RunCode" Code="Logging.Write(System.Windows.Media.Colors.Orange, &quot;Teleport unsuccessful add +1 to counter&quot;);" />
+				</If>
+          </While>
+          <CustomBehavior File="RunCode" Code="waitCounter++;" />
+       </If>
+        
+
+
+      <CustomBehavior File="ForcedMount" MountType="Ground" />
+
+      <If Condition="!(Me.Class == WoWClass.Druid) &amp;&amp; !(Me.Class == WoWClass.DeathKnight)">
+          <!-- Move to Entrance-->
+          <MoveTo X="-254.0616" Y="-174.1371" Z="54.21514" />
+          <MoveTo X="-282.6122" Y="-138.5372" Z="46.2877" />
+          <MoveTo X="-314.1085" Y="-99.49712" Z="45.02436" />
+          <MoveTo X="-335.1924" Y="-53.55501" Z="44.71933" />
+          <MoveTo X="-367.9997" Y="87.73262" Z="45.23378" />
+          <MoveTo X="-394.4117" Y="172.1343" Z="51.50024" />
+          <MoveTo X="-409.73" Y="206.3752" Z="52.5985" />
+          <MoveTo X="-444.162" Y="276.896" Z="82.98987" />
+          <MoveTo X="-528.8029" Y="312.1284" Z="115.2895" />
+           <CustomBehavior File="RunCode" Code="waitCounter++;" />
+          <!-- exit and reset-->
+          
+
+          <!-- stealth on leave -->
+         
+            <If Condition="Me.Class == WoWClass.Druid &amp;&amp; !Me.Combat" >
+              <CustomBehavior File="RunCode" Code="SpellManager.Cast(5215);" />
+            </If>
+            <If Condition="Me.Class == WoWClass.Rogue &amp;&amp; !Me.Combat" >
+              <CustomBehavior File="RunCode" Code="SpellManager.Cast(1784);" />
+            </If>
+            <If Condition="Me.Class == WoWClass.Hunter &amp;&amp; !Me.Combat" >
+              <CustomBehavior File="RunCode" Code="SpellManager.Cast(51753);" />
+            </If>
+          
+          <!-- ReEnter-->
+          <CustomBehavior File="GoThruPortal" Timeout="30000" X="-558.6042" Y="322.9795" Z="115.4839" />
+          <EnableBehavior Name="Death" /> 
+          <CustomBehavior File="WaitTimer" WaitTime="10000" TerminateWhen="!Me.IsInInstance" />
+          <CustomBehavior File="Misc\RunLua" Lua="ResetInstances();" />
+        </If>
+
+      
+      
+      
+      
+      
+      
+      
+
+		
+		
+		
+	
+	</While>
+</While>
+
+ 
+
+</QuestOrder>
+</HBProfile>
